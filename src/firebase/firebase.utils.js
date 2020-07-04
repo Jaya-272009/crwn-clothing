@@ -11,7 +11,7 @@ const config={
     messagingSenderId: "249906153492",
     appId: "1:249906153492:web:3cd192b4c405c06daaff01",
     measurementId: "G-4J2MXMD47H"
-  };;
+  };
 
 
   export const createUserProfileDocument = async (userAuth , additionalData) => {
@@ -38,7 +38,37 @@ const config={
     return userRef;
   }
 
+  // export const addCollectionAndDocuments = async (collectionKey , objectToAdd) => {
+  //   const collectionRef = firestore.collection(collectionKey);
+
+  //   const batch = firestore.batch();
+  //   objectToAdd.forEach(obj => {
+  //     const newDocRef = collectionRef.doc();
+  //     console.log(newDocRef)
+  //     batch.set(newDocRef, obj);
+  //   });
+  //   return await batch.commit();
+  // }
+
   firebase.initializeApp(config);
+
+  export const convertCollectionsSnapshotToMap=(collections)=>{
+    const transformedCollection = collections.docs.map(doc=>{
+      const {title,items} = doc.data();
+
+      return {
+        routeName: encodeURI(title.toLowerCase()),
+        id:doc.id,
+        title,
+        items
+      }
+    });
+  return transformedCollection.reduce((accumulator, collection)=>{
+      accumulator[collection.title.toLowerCase()] = collection;
+      return accumulator;
+
+    },{})
+  }
 
   export const auth=firebase.auth();
   export const firestore = firebase.firestore();
