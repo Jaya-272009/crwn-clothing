@@ -27,8 +27,12 @@ class ShopPage extends React.Component{
         // fetch('https://firestore.googleapis.com/v1/projects/crwn-db-85de4/databases/(default)/documents/collection')
         // .then(response => response.json())
         // .then(collections => console.log(collections));
+        // we are not to using this because in firebase the fetched data is almost 8 level nested
 
         
+
+
+        //this is converted into promise as we are using get and then
         collectionRef.get().then(snapshot => {
         const collectionMap = convertCollectionsSnapshotToMap(snapshot);
         updateCollections(collectionMap);
